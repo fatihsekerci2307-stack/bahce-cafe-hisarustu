@@ -26,9 +26,33 @@
 - `bill_items` içinde fiyat ve ürün adı snapshot olarak saklanacak.
 
 ### Teknik Notlar
-- Node.js henüz kurulmadı — `npm install` kullanıcı tarafından yapılacak.
+- Node.js v24.18.0 kuruldu, PATH'e eklendi.
+- `npm install` çalıştırıldı — 359 paket yüklendi.
+- Next.js 15.5.19 (güvenli sürüm) kullanılıyor.
+- `npm run dev` ile proje `localhost:3000`'de çalıştırıldı, tüm sayfalar doğrulandı.
+- `.env.local` oluşturuldu (Supabase public key'leri içeriyor, GitHub'a gitmez).
 - Supabase tabloları henüz oluşturulmadı — M2'de yapılacak.
-- `.env.local` kullanıcı tarafından oluşturulacak.
+
+---
+
+## 2026-06-30 — M2 Hazırlık: Veritabanı Planı
+
+### Yapılanlar
+- `docs/M2_DATABASE_PLAN.md` ve `docs/M2_DATABASE_PLAN.sql` oluşturuldu.
+- 9 tablo, index'ler, RLS enable, yardımcı fonksiyon ve tüm policy'ler taslaklandı.
+- Seed verisi (Bahçe Cafe areas, tables, categories, products) taslaklandı.
+- İlk owner kullanıcısı bağlama adımları belgelendi.
+
+### Düzeltmeler ve Güvenlik İyileştirmeleri
+- `bills`: aynı masada birden fazla açık adisyonu önleyen partial unique index eklendi.
+- `bills INSERT policy`: `table_id`'nin aynı işletmeye ait aktif masaya ait olduğu doğrulanıyor.
+- `bill_items INSERT policy`: `bill_id`'nin aynı `business_id`'ye ait ve açık adisyon olduğu doğrulanıyor.
+- `bill_items DELETE policy`: sadece açık adisyon kalemlerinin silinebileceği kısıtlandı.
+- `payments INSERT policy`: `bill_id`'nin aynı `business_id`'ye ait olduğu doğrulanıyor.
+- `DECISIONS.md`'e KARAR-006 eklendi: public QR policy kapsamı ve ileride view/RPC planı.
+
+### Sonraki Adım
+**M2 uygulaması:** Plan onaylandıktan sonra Supabase SQL Editor'da çalıştırılacak.
 
 ---
 

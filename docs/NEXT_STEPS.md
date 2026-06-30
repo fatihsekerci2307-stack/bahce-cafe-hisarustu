@@ -4,60 +4,32 @@
 
 ---
 
-## Şu An: M0+M1 Tamamlandı ✅
+## Şu An: M0+M1 Tamamlandı ✅ + M2 Planı Hazır ✅
 
-Proje iskeleti kuruldu. Sayfalar açılır ama gerçek veri yok.
-
----
-
-## Kullanıcının Yapması Gerekenler (M2'den önce)
-
-### 1. Node.js Kur
-- https://nodejs.org adresine git
-- "LTS" (uzun vadeli destek) versiyonunu indir ve kur
-- Kurulumdan sonra terminali yeniden aç
-
-### 2. Projeyi Çalıştır
-```bash
-# Proje klasörüne git
-cd "C:\Users\Fatih Şekerci\OneDrive\Masaüstü\CLAUDE SİSTEM ANALİZ\bahce-cafe-hisarustu"
-
-# Paketleri yükle (ilk seferinde yapılır)
-npm install
-
-# Geliştirme sunucusunu başlat
-npm run dev
-```
-
-### 3. .env.local Oluştur
-Proje klasöründe `.env.local` adında bir dosya oluştur ve içine yaz:
-```
-NEXT_PUBLIC_SUPABASE_URL=https://wlwaiyejdxchgqklketz.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_j8Px533PNh3-afRVxHnCkw_aY_zd9Wn
-```
-
-### 4. GitHub'a Push Et
-```bash
-git add .
-git commit -m "M0+M1: Proje kurulumu ve iskelet sayfalar"
-git push
-```
+- Node.js v24.18.0 kuruldu ✅
+- `npm install` tamamlandı (Next.js 15.5.19) ✅
+- `localhost:3000` üzerinde çalışıyor ✅
+- `.env.local` oluşturuldu ✅
+- GitHub'a push edildi ✅
+- `docs/M2_DATABASE_PLAN.md` ve `.sql` taslakları tamamlandı ✅
 
 ---
 
 ## Sonraki Milestone: M2
 
-**Hedef:** Supabase'de 9 tabloyu oluşturmak, RLS politikalarını yazmak ve Bahçe Cafe örnek verilerini eklemek.
+**Hedef:** `M2_DATABASE_PLAN.sql` içeriğini Supabase SQL Editor'da çalıştırarak tabloları, index'leri, RLS'yi, policy'leri ve örnek verileri kurmak.
 
-### M2'de yapılacaklar:
-- [ ] Supabase SQL Editor'da tablo oluşturma migration'ı çalıştır
-- [ ] RLS politikalarını yaz (business_users üzerinden yetki)
-- [ ] Supabase Auth'u kur, ilk admin kullanıcısını oluştur
-- [ ] Örnek kategoriler: İçecekler, Nargile, Yiyecekler, Take Away
-- [ ] Örnek ürünler (her kategoriden 4-5 ürün)
-- [ ] Örnek masa alanları: Kolon, Salon, Bahçe, S.M.
-- [ ] Örnek masalar (her alandan 3-4 masa)
-- [ ] Supabase bağlantısını Next.js'ten test et
+### M2'de yapılacaklar (sırayla):
+- [ ] Supabase SQL Editor'da sırayla çalıştır:
+  - [ ] 9 tablo CREATE
+  - [ ] Index'ler (partial unique index dahil)
+  - [ ] RLS enable
+  - [ ] `auth_user_role_for_business` fonksiyonu
+  - [ ] Tüm policy'ler
+  - [ ] Seed DO bloku
+- [ ] Supabase Auth'tan ilk owner kullanıcısını oluştur
+- [ ] `business_users` tablosuna owner kaydını ekle
+- [ ] Next.js'ten Supabase bağlantısını test et
 
 ---
 

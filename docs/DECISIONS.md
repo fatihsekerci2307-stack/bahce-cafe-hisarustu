@@ -90,6 +90,25 @@ Sadece `bills.payment_method` tutmak yerine ayrı `payments` tablosu oluşturula
 
 ---
 
+## KARAR-006: Public QR Menü Policy Kapsamı
+**Tarih:** 2026-06-30
+**Durum:** Kesinleşti (MVP), ileride revize edilecek
+
+### Karar
+MVP'de `businesses`, `categories` ve `products` tabloları anonim (giriş yapmayan) kullanıcılara `is_active = true` filtresiyle tamamen açık okunabilir bırakıldı.
+
+### Neden
+QR kodu okutan müşteriler giriş yapmaz. Uygulama kodu her sorguya `WHERE business_id = <id>` ekler, dolayısıyla farklı işletme verisi görme riski pratikte yoktur.
+
+### İleride (M11 — çok işletmeli satış)
+Yüzlerce işletme aynı Supabase projesinde olduğunda daha kontrollü bir yapı değerlendirilecek:
+- `public_menu` adında bir view (sadece public alanları expose eder)
+- veya slug bazlı RPC fonksiyonu (`get_menu_by_slug(slug TEXT)`)
+
+Bu geçiş yapılana kadar mevcut açık policy kabul edilebilir güvenlik seviyesindedir.
+
+---
+
 ## KARAR-005: URL Yapısı
 **Tarih:** 2026-06-30
 **Durum:** Kesinleşti
