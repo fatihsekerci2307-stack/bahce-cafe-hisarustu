@@ -4,32 +4,29 @@
 
 ---
 
-## Şu An: M0+M1 Tamamlandı ✅ + M2 Planı Hazır ✅
+## Şu An: M0+M1+M2 Tamamlandı ✅
 
 - Node.js v24.18.0 kuruldu ✅
 - `npm install` tamamlandı (Next.js 15.5.19) ✅
 - `localhost:3000` üzerinde çalışıyor ✅
 - `.env.local` oluşturuldu ✅
 - GitHub'a push edildi ✅
-- `docs/M2_DATABASE_PLAN.md` ve `.sql` taslakları tamamlandı ✅
+- Supabase CLI ile migration uygulandı ✅
+  - 9 tablo, 30 RLS policy, seed verileri ✅
+  - Owner kullanıcı `business_users`'a eklendi ✅
 
 ---
 
-## Sonraki Milestone: M2
+## Sonraki Milestone: M3
 
-**Hedef:** `M2_DATABASE_PLAN.sql` içeriğini Supabase SQL Editor'da çalıştırarak tabloları, index'leri, RLS'yi, policy'leri ve örnek verileri kurmak.
+**Hedef:** Admin panelinde ürün, kategori ve masa yönetimi sayfaları.
 
-### M2'de yapılacaklar (sırayla):
-- [ ] Supabase SQL Editor'da sırayla çalıştır:
-  - [ ] 9 tablo CREATE
-  - [ ] Index'ler (partial unique index dahil)
-  - [ ] RLS enable
-  - [ ] `auth_user_role_for_business` fonksiyonu
-  - [ ] Tüm policy'ler
-  - [ ] Seed DO bloku
-- [ ] Supabase Auth'tan ilk owner kullanıcısını oluştur
-- [ ] `business_users` tablosuna owner kaydını ekle
-- [ ] Next.js'ten Supabase bağlantısını test et
+### M3'te yapılacaklar:
+- [ ] `/admin` layout ve navigation
+- [ ] Kategori listele/ekle/düzenle/sil
+- [ ] Ürün listele/ekle/düzenle/sil
+- [ ] Masa ve alan listele/düzenle
+- [ ] Supabase client bağlantısını Next.js'ten test et
 
 ---
 
@@ -37,8 +34,8 @@
 | # | Milestone | Durum |
 |---|---|---|
 | M0+M1 | Kurulum + Hafıza | ✅ Tamamlandı |
-| M2 | Veritabanı + Örnek Veri | ⏳ Sıradaki |
-| M3 | Admin Ürün/Kategori Yönetimi | — |
+| M2 | Veritabanı + Örnek Veri | ✅ Tamamlandı |
+| M3 | Admin Ürün/Kategori Yönetimi | ⏳ Sıradaki |
 | M4 | Müşteri QR Menüsü | — |
 | M5 | Masa/Adisyon Paneli | — |
 | M6 | Ödeme + Gün Sonu Raporu | — |

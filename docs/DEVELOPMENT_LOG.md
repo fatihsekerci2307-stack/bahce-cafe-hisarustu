@@ -56,5 +56,30 @@
 
 ---
 
+---
+
+## 2026-06-30 — M2 Uygulama: Supabase CLI + Migration
+
+### Yapılanlar
+- `supabase init` ile proje CLI yapılandırması oluşturuldu.
+- `supabase/migrations/20260630000000_m2_schema_seed.sql` oluşturuldu (ADIM 1–6, BOM'suz UTF-8).
+- `supabase link --project-ref wlwaiyejdxchgqklketz` ile remote bağlantı kuruldu.
+- `supabase db push --linked` ile migration uygulandı.
+  - 9 tablo oluşturuldu.
+  - 11 index (partial unique index dahil) eklendi.
+  - Tüm tablolarda RLS aktifleştirildi.
+  - `auth_user_role_for_business()` fonksiyonu (SET search_path = public) oluşturuldu.
+  - 30 RLS policy eklendi.
+  - Seed: 5 alan, 17 masa, 4 kategori, 18 ürün eklendi (Business ID: 6493d332-...).
+- Owner kullanıcı (fatihsekerci2307@hotmail.com) `business_users` tablosuna eklendi.
+  - role = owner, is_active = true, isletme = Bahçe Cafe Hisarüstü ✅
+
+### Teknik Notlar
+- Browser/CLI auth sorunu: `supabase login --no-browser` non-TTY ortamda output üretmiyor.
+  Çözüm: Kullanıcı kendi terminalinde `npx supabase login` çalıştırdı.
+- BOM hatası: PowerShell 5.1 `Set-Content -Encoding UTF8` ile BOM ekliyor.
+  Çözüm: `[System.IO.File]::WriteAllText()` ile `UTF8Encoding($false)` kullanıldı.
+- ADIM 7 kasıtlı olarak migration dışında bırakıldı; doğrudan SQL query ile uygulandı.
+
 ## Sonraki Milestone
-**M2:** Supabase veritabanı tabloları, RLS politikaları ve örnek Bahçe Cafe verileri.
+**M3:** Admin panelinde ürün, kategori ve masa yönetimi.
