@@ -1,7 +1,22 @@
 # M2 Veritabanı Planı — Bahçe Cafe Hisarüstü
 
-Bu dosya onaylandıktan sonra Supabase SQL Editor'da sırayla çalıştırılacak.
-Şu an sadece taslak — henüz hiçbir SQL çalıştırılmadı.
+## Çalıştırma Talimatı
+
+Bu SQL **iki ayrı parçada** çalıştırılacak:
+
+**Parça 1 — ADIM 1–6:** Tabloları, index'leri, RLS'yi, fonksiyonu, policy'leri ve seed verisini içerir.
+Supabase SQL Editor'da doğrudan çalıştırılabilir.
+
+**Parça 2 — ADIM 7:** Sadece şu adımlardan sonra çalıştırın:
+1. Supabase Dashboard → **Authentication → Users → Add User**
+2. Owner'ın e-postasını ve şifresini girin
+3. Oluşan kullanıcının UUID'sini kopyalayın
+4. ADIM 7'deki `<KULLANICI_UUID>` yerine o UUID'yi yazın
+5. Sadece ADIM 7 bloğunu çalıştırın
+
+> `<KULLANICI_UUID>` bir placeholder'dır — gerçek UUID ile değiştirilmeden çalıştırılırsa hata verir.
+
+**Şu an sadece taslak — henüz hiçbir SQL çalıştırılmadı.**
 
 ---
 
@@ -252,6 +267,7 @@ RETURNS TEXT
 LANGUAGE sql
 SECURITY DEFINER
 STABLE
+SET search_path = public
 AS $$
   SELECT role
   FROM business_users

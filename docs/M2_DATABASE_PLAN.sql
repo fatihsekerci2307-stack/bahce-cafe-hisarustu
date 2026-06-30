@@ -1,6 +1,17 @@
 -- ================================================================
 -- M2: Bahçe Cafe Hisarüstü — Veritabanı Kurulum Planı
--- Supabase SQL Editor'da SIRAYLA çalıştırılacak
+-- ================================================================
+-- BU SQL IKI PARCADA CALISTIRILACAK:
+--
+-- PARCA 1 (ADIM 1-6): Tüm tabloları, index'leri, RLS'yi, fonksiyonu,
+--   policy'leri ve seed verisini tek seferde çalıştırabilirsiniz.
+--
+-- PARCA 2 (ADIM 7): SADECE şu adımlardan SONRA çalıştırın:
+--   1. Supabase Dashboard → Authentication → Users → Add User
+--   2. Owner'ın e-postasını ve şifresini girin
+--   3. Oluşan kullanıcının UUID'sini kopyalayın
+--   4. Aşağıdaki <KULLANICI_UUID> yerine o UUID'yi yazın
+--   5. Sadece ADIM 7 bloğunu çalıştırın
 -- ================================================================
 -- ADIM 1: Tabloları oluştur
 -- ADIM 2: Index'leri ekle
@@ -8,7 +19,7 @@
 -- ADIM 4: Yardımcı fonksiyonu ekle
 -- ADIM 5: Politikaları (RLS policy) ekle
 -- ADIM 6: Örnek verileri ekle (seed)
--- ADIM 7: İlk owner kullanıcısını bağla (ayrı talimat)
+-- ADIM 7: İlk owner kullanıcısını bağla (AYRI — yukarıdaki talimatı oku)
 -- ================================================================
 
 
@@ -184,6 +195,7 @@ RETURNS TEXT
 LANGUAGE sql
 SECURITY DEFINER
 STABLE
+SET search_path = public
 AS $$
   SELECT role
   FROM business_users
