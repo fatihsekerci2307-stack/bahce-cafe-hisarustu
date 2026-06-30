@@ -81,5 +81,27 @@
   Çözüm: `[System.IO.File]::WriteAllText()` ile `UTF8Encoding($false)` kullanıldı.
 - ADIM 7 kasıtlı olarak migration dışında bırakıldı; doğrudan SQL query ile uygulandı.
 
+---
+
+## 2026-06-30 — M3: Admin Panel (Kategori + Ürün Yönetimi)
+
+### Yapılanlar
+- `middleware.ts` oluşturuldu: `/admin` ve `/pos` rotaları oturum yoksa `/login`'e yönlendirir.
+- `app/login/page.tsx`: Fonksiyonel Supabase Auth giriş formu (email + şifre).
+- `app/admin/layout.tsx`: Server Component. Oturum + rol kontrolü (`owner`/`admin` gerekli, `staff` reddedilir). Navigasyon ve çıkış butonu.
+- `components/admin/LogoutButton.tsx`: Client Component, `supabase.auth.signOut()` çağrısı.
+- `app/admin/categories/page.tsx`: Kategori listesi, ekleme formu, düzenleme formu, aktif/pasif toggle.
+- `app/admin/categories/actions.ts`: Server Actions — `addCategory`, `updateCategory`, `toggleCategory`. Türkçe karakter slug dönüşümü dahil.
+- `app/admin/products/page.tsx`: Ürün listesi, kategori filtresi, ekleme/düzenleme formu, aktif/pasif toggle.
+- `app/admin/products/actions.ts`: Server Actions — `addProduct`, `updateProduct`, `toggleProduct`.
+- `types/database.generated.ts`: `supabase gen types typescript --linked` ile üretildi. Supabase v2.110.0 ile uyumlu resmi tip yapısı.
+- `types/index.ts`: `Database` tipi artık üretilen dosyadan re-export ediliyor.
+
+### Teknik Notlar
+- `@supabase/supabase-js` v2.110.0: Manuel `Database` tipi generic inference'ı `never` olarak döndürüyor.
+  Çözüm: `createServerClient/createBrowserClient`'tan `<Database>` generic'i kaldırıldı; query sonuçları explicit tip cast ile (`as Category[]`, `as { business_id: string } | null`) yazıldı.
+- Supabase JS v2.110.0 ile doğru tip üretimi için: `npx supabase gen types typescript --linked > types/database.generated.ts`
+- Build başarılı: 9 static/dynamic rota, middleware 90.2 kB.
+
 ## Sonraki Milestone
-**M3:** Admin panelinde ürün, kategori ve masa yönetimi.
+**M4:** Müşteri QR menü sayfası (`/menu/[slug]`).

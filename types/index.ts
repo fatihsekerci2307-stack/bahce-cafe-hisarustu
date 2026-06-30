@@ -113,19 +113,5 @@ export interface Payment {
   created_at: string;
 }
 
-// ---- Supabase Database tipi (M2'de genişletilecek) ----
-export type Database = {
-  public: {
-    Tables: {
-      businesses: { Row: Business; Insert: Omit<Business, "id" | "created_at">; Update: Partial<Business> };
-      business_users: { Row: BusinessUser; Insert: Omit<BusinessUser, "id" | "created_at">; Update: Partial<BusinessUser> };
-      areas: { Row: Area; Insert: Omit<Area, "id">; Update: Partial<Area> };
-      tables: { Row: Table; Insert: Omit<Table, "id">; Update: Partial<Table> };
-      categories: { Row: Category; Insert: Omit<Category, "id">; Update: Partial<Category> };
-      products: { Row: Product; Insert: Omit<Product, "id">; Update: Partial<Product> };
-      bills: { Row: Bill; Insert: Omit<Bill, "id">; Update: Partial<Bill> };
-      bill_items: { Row: BillItem; Insert: Omit<BillItem, "id">; Update: Partial<BillItem> };
-      payments: { Row: Payment; Insert: Omit<Payment, "id" | "created_at">; Update: Partial<Payment> };
-    };
-  };
-};
+// ---- Supabase Database tipi (otomatik üretildi: supabase gen types typescript --linked) ----
+export type { Database } from "./database.generated";
