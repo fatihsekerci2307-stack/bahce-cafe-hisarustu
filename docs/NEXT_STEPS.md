@@ -1,13 +1,13 @@
 # Sonraki Adımlar — Bahçe Cafe Hisarüstü
 
-**Son güncelleme:** 2026-06-30
+**Son güncelleme:** 2026-07-01
 
 ---
 
-## Şu An: M0+M1+M2+M3+M4+M5+M6 Tamamlandı ✅
+## Şu An: M0+M1+M2+M3+M4+M5+M6 Tamamlandı ✅ (uçtan uca test edildi)
 
 - Node.js v24.18.0, Next.js 15.5.19 ✅
-- Supabase bağlantısı + 9 tablo + 30 RLS policy ✅
+- Supabase bağlantısı + 9 tablo + 30 RLS policy + tablo erişim izinleri (GRANT) ✅
 - Owner kullanıcı bağlandı ✅
 - `/login` → fonksiyonel Supabase Auth girişi ✅
 - `/admin` → rol korumalı (owner/admin), nav + çıkış ✅
@@ -18,6 +18,9 @@
 - `/pos` → alan/masa grid, boş/dolu renk gösterimi ✅
 - `/pos/table/[tableId]` → adisyon aç, ürün ekle/çıkar, kapat + ödeme ✅
 - Build başarılı (0 TypeScript hatası) ✅
+- Claude tarafından tarayıcıda bizzat test edildi: menü, admin, POS tam
+  akışı (adisyon aç → ürün ekle → kapat → raporda gör) çalışıyor. Test
+  verisi temizlendi, canlı veritabanı gerçek işletme kullanımına hazır. ✅
 
 ---
 

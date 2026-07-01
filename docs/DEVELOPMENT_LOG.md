@@ -199,13 +199,35 @@ sayfa kodu da bunu 404/boş olarak yorumluyordu).
 - Tam POS akışı: masaya adisyon aç → ürün ekle → kapat (Kart, ₺60) →
   masa "Boş"a döndü → `/admin/reports`'ta doğru şekilde listelendi
   (K1, 04:10, Kart, ₺60).
-- Test verisi olarak 1 adet kapalı adisyon (K1, ₺60) canlı veritabanında
-  kaldı — kullanıcı isterse temizlenebilir.
+- Test verisi olarak oluşan 1 adet kapalı adisyon (K1, ₺60), kullanıcı
+  onayıyla `supabase db query --linked` ile canlı veritabanından silindi
+  (`bill_items` ve `payments` `ON DELETE CASCADE` ile otomatik temizlendi).
+  Rapor sayfasında ₺0 / "kapalı adisyon yok" olarak doğrulandı.
 
 ### Ders
 Ham SQL migration ile tablo oluşturulduğunda Supabase Dashboard'un
 otomatik uyguladığı varsayılan GRANT'ler uygulanmıyor. Bundan sonraki
 migration'larda RLS policy'leriyle birlikte GRANT ifadeleri de yazılacak.
+
+---
+
+## 2026-07-01 — Toparlama: Test Verisi Temizliği + Dev Cache Sorunu
+
+### Yapılanlar
+- K1 masasındaki test adisyonu (₺60) kullanıcı onayıyla canlı veritabanından
+  silindi (`DELETE FROM bills WHERE table_id = ... AND status = 'closed'`,
+  CASCADE ile `bill_items`/`payments` da temizlendi).
+- `/admin/reports` sayfası yeniden kontrol edildi: ₺0, "Bu tarihte kapalı
+  adisyon yok" — temizlik doğrulandı.
+- Test sırasında dev server'ın `.next` cache'i bozuldu (Windows'ta sık
+  görülen bir Next.js dev-mode sorunu: "Cannot find module './833.js'" gibi
+  hatalar, sadece dev server'ı etkiliyor, üretim build'ini etkilemiyor).
+  `.next` klasörü silinip dev server temiz yeniden başlatıldı, sorun düzeldi.
+- `npm run build` tekrar çalıştırıldı: 0 hata, 10 route başarıyla derlendi.
+
+### Sonuç
+Kod tarafında herhangi bir hata bulunmadı; yapılan tek düzeltme dev-only
+cache temizliğiydi. Uygulama kodu değişmedi.
 
 ## Sonraki Milestone
 **M7:** Instagram/Maps/Wi-Fi ayarları (`/admin/settings`) + müşteri menüsünde mini oyunlar.
