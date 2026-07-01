@@ -4,7 +4,7 @@
 
 ---
 
-## Şu An: M0+M1+M2+M3 Tamamlandı ✅
+## Şu An: M0+M1+M2+M3+M4 Tamamlandı ✅
 
 - Node.js v24.18.0, Next.js 15.5.19 ✅
 - Supabase bağlantısı + 9 tablo + 30 RLS policy ✅
@@ -13,19 +13,21 @@
 - `/admin` → rol korumalı (owner/admin), nav + çıkış ✅
 - `/admin/categories` → liste + ekle + düzenle + aktif/pasif ✅
 - `/admin/products` → liste + kategori filtresi + ekle + düzenle + aktif/pasif ✅
+- `/menu/[slug]` → anonim QR menüsü, kategoriye göre gruplu ürünler ✅
 - Build başarılı (0 TypeScript hatası) ✅
 
 ---
 
-## Sonraki Milestone: M4
+## Sonraki Milestone: M5
 
-**Hedef:** Müşteri QR menü sayfası — aktif ürünleri kategoriye göre listele.
+**Hedef:** Garson POS/Adisyon paneli — masa seçimi, sipariş açma/kapama.
 
-### M4'te yapılacaklar:
-- [ ] `/menu/[slug]` sayfasını geliştir
-- [ ] İşletme + aktif kategoriler + aktif ürünleri anonymous olarak çek
-- [ ] Kategoriye göre grupla, güzel bir QR menü arayüzü oluştur
-- [ ] Slug bulunamazsa 404 veya hata sayfası
+### M5'te yapılacaklar:
+- [ ] `/pos` → masa listesi (areas ve tables)
+- [ ] Masa seçince adisyon aç
+- [ ] Adisyona ürün ekle / çıkar
+- [ ] Adisyonu kapat → ödeme akışı
+- [ ] Sadece `staff` / `admin` / `owner` girebilir
 
 ---
 
@@ -35,8 +37,8 @@
 | M0+M1 | Kurulum + Hafıza | ✅ Tamamlandı |
 | M2 | Veritabanı + Örnek Veri | ✅ Tamamlandı |
 | M3 | Admin Ürün/Kategori Yönetimi | ✅ Tamamlandı |
-| M4 | Müşteri QR Menüsü | ⏳ Sıradaki |
-| M5 | Masa/Adisyon Paneli | — |
+| M4 | Müşteri QR Menüsü | ✅ Tamamlandı |
+| M5 | Masa/Adisyon Paneli | ⏳ Sıradaki |
 | M6 | Ödeme + Gün Sonu Raporu | — |
 | M7 | Instagram/Maps/Wi-Fi + Mini Oyunlar | — |
 | M8 | Excel Menü Import | — |

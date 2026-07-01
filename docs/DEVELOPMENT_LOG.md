@@ -103,5 +103,23 @@
 - Supabase JS v2.110.0 ile doğru tip üretimi için: `npx supabase gen types typescript --linked > types/database.generated.ts`
 - Build başarılı: 9 static/dynamic rota, middleware 90.2 kB.
 
+---
+
+## 2026-07-01 — M4: Müşteri QR Menü Sayfası
+
+### Yapılanlar
+- `app/menu/[slug]/page.tsx` tam olarak geliştirildi.
+  - Anonim Supabase erişimi (auth gerektirmiyor).
+  - `businesses` tablosundan slug ile işletme çekiliyor; bulunamazsa Next.js `notFound()`.
+  - Aktif kategoriler ve aktif ürünler paralel sorguyla çekiliyor.
+  - Ürünler kategoriye göre Map ile gruplandırılıyor.
+  - Sadece ürünü olan kategoriler gösteriliyor.
+- Arayüz: yeşil header, sosyal linkler (Instagram/Konum/Wi-Fi), sticky kategori sekmeleri, ürün kartları (isim + açıklama + fiyat).
+
+### Teknik Notlar
+- `as { data: Business | null; error: unknown }` cast pattern M3'ten tutarlı şekilde uygulandı.
+- `notFound()` ile Next.js 404 sayfası tetikleniyor (slug bulunamazsa).
+- Build başarılı: `/menu/[slug]` ƒ dynamic route olarak oluştu.
+
 ## Sonraki Milestone
-**M4:** Müşteri QR menü sayfası (`/menu/[slug]`).
+**M5:** Garson POS/Adisyon paneli (`/pos`).
