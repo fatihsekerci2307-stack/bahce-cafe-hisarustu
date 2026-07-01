@@ -121,5 +121,29 @@
 - `notFound()` ile Next.js 404 sayfası tetikleniyor (slug bulunamazsa).
 - Build başarılı: `/menu/[slug]` ƒ dynamic route olarak oluştu.
 
+---
+
+## 2026-07-01 — M5: Garson POS / Adisyon Paneli
+
+### Yapılanlar
+- `app/pos/layout.tsx` oluşturuldu: auth + rol kontrolü, sticky header, logout butonu.
+- `app/pos/page.tsx` yeniden yazıldı: alanlar başlık, masalar grid (boş=gri, dolu=kırmızı).
+- `app/pos/table/[tableId]/page.tsx` oluşturuldu:
+  - Masada açık adisyon yoksa "Adisyon Aç" butonu.
+  - Açık adisyon varsa: kalem listesi (ürün adı, adet, fiyat, × kaldır), toplam.
+  - Ödeme yöntemi seçimi (Nakit/Kart/Diğer) + "Adisyonu Kapat" butonu.
+  - Ürün picker: kategori sekmeleri + ürün kartları (dokunca ekler).
+- `app/pos/table/[tableId]/actions.ts` oluşturuldu:
+  - `openBill`: bills tablosuna yeni kayıt.
+  - `addItem`: product snapshot (isim + fiyat) ile bill_items'a ekler.
+  - `removeItem`: kalem siler (RLS açık adisyon kontrolü yapar).
+  - `closeBill`: bill'i closed yapar, payments tablosuna kayıt, /pos'a yönlendirir.
+
+### Teknik Notlar
+- `.maybeSingle()` ile açık adisyon kontrolü (single() hata fırlatır, maybeSingle() null döner).
+- Tüm Server Actions M3 pattern'ı izliyor: `as never` cast, `revalidatePath` + opsiyonel redirect.
+- RLS güvenliği: `business_id` her sorguda filtre olarak kullanılıyor; client'tan gelen form verisi sadece `table_id`, `bill_id`, `item_id` gibi ID'ler.
+- Build başarılı: `/pos` ve `/pos/table/[tableId]` ƒ dynamic route olarak oluştu.
+
 ## Sonraki Milestone
-**M5:** Garson POS/Adisyon paneli (`/pos`).
+**M6:** Gün sonu raporu + kapalı adisyon listesi (`/admin/reports`).

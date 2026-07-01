@@ -1,34 +1,79 @@
-export default function PosPage() {
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import type { Area, Table } from "@/types";
+
+interface OpenBillRow {
+  id: string;
+  table_id: string;
+}
+
+export default async function PosPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { data: bizData } = await supabase
+    .from("business_users")
+    .select("business_id")
+    .eq("user_id", user!.id)
+    .eq("is_active", true)
+    .single() as { data: { business_id: string } | null; error: unknown };
+
+  if (!bizData) {
+    return <p className="p-8 text-center text-red-500">İşletme bulunamadı.</p>;
+  }
+  const { business_id } = bizData;
+
+  const [{ data: rawAreas }, { data: rawTables }, { data: rawBills }] = await Promise.all([
+    supabase.from("areas").select("*").eq("business_id", business_id).eq("is_active", true).order("sort_order"),
+    supabase.from("tables").select("*").eq("business_id", business_id).eq("is_active", true).order("sort_order"),
+    supabase.from("bills").select("id, table_id").eq("business_id", business_id).eq("status", "open"),
+  ]);
+
+  const areas = (rawAreas ?? []) as Area[];
+  const tables = (rawTables ?? []) as Table[];
+  const openBills = (rawBills ?? []) as OpenBillRow[];
+
+  const openTableIds = new Set(openBills.map((b) => b.table_id));
+
   return (
-    <main className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <div className="bg-blue-700 text-white p-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold">Adisyon Paneli</h1>
-        <span className="text-blue-200 text-sm">Bahçe Cafe Hisarüstü</span>
-      </div>
-
-      {/* Placeholder */}
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-400">
-          <p className="text-lg font-medium">POS / Adisyon Ekranı</p>
-          <p className="text-sm mt-4 text-gray-300">
-            M5 milestoneunda masa listesi ve adisyon ekranı burada açılacak.
-          </p>
-        </div>
-
-        {/* Masa kartı placeholder'ları */}
-        <div className="grid grid-cols-3 gap-4 mt-6">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div
-              key={n}
-              className="bg-green-100 border-2 border-green-300 rounded-2xl p-6 text-center"
-            >
-              <p className="text-green-800 font-bold text-lg">Masa {n}</p>
-              <p className="text-green-600 text-sm mt-1">Boş</p>
+    <div className="max-w-3xl mx-auto p-4 space-y-6 mt-2">
+      {areas.length === 0 && (
+        <p className="text-center text-gray-400 py-16">Henüz alan tanımlı değil.</p>
+      )}
+      {areas.map((area) => {
+        const areaTables = tables.filter((t) => t.area_id === area.id);
+        if (areaTables.length === 0) return null;
+        return (
+          <section key={area.id}>
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 px-1">
+              {area.name}
+            </h2>
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+              {areaTables.map((table) => {
+                const isOpen = openTableIds.has(table.id);
+                return (
+                  <Link
+                    key={table.id}
+                    href={`/pos/table/${table.id}`}
+                    className={`rounded-2xl p-4 text-center border-2 transition active:scale-95 select-none ${
+                      isOpen
+                        ? "bg-red-50 border-red-300 hover:bg-red-100"
+                        : "bg-white border-gray-200 hover:border-blue-300 hover:bg-blue-50"
+                    }`}
+                  >
+                    <p className={`font-bold text-base leading-tight ${isOpen ? "text-red-700" : "text-gray-800"}`}>
+                      {table.display_name}
+                    </p>
+                    <p className={`text-xs mt-1 font-medium ${isOpen ? "text-red-400" : "text-gray-400"}`}>
+                      {isOpen ? "Dolu" : "Boş"}
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
-          ))}
-        </div>
-      </div>
-    </main>
+          </section>
+        );
+      })}
+    </div>
   );
 }
