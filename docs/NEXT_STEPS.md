@@ -4,6 +4,23 @@
 
 ---
 
+## Canlı Site 🔶 Deploy Edildi, Doğrulama Bekliyor
+
+**URL:** https://bahce-cafe-hisarustu-bmz5yikqf-seker.vercel.app
+
+Vercel'e başarıyla deploy edildi ama şu an herkese açık değil (Deployment
+Protection/SSO arkasında). Canlıya tam geçiş için kullanıcının kendi
+Vercel dashboard'unda (hesap: `seker`) yapması gerekenler:
+
+- [ ] Deployment Protection'ı kapat (Settings → Deployment Protection)
+- [ ] GitHub auto-deploy bağlantısının aktif olduğunu doğrula (Settings → Git)
+- [ ] Environment Variables'ın girili olduğunu doğrula (Settings → Environment Variables)
+- [ ] Koruma kapatıldıktan sonra `/menu/bahce-cafe-hisarustu` sayfasını kontrol et
+
+Detay: `docs/DEVELOPMENT_LOG.md` → "Canlıya Alma: İlk Vercel Deploy" bölümü.
+
+---
+
 ## Şu An: M0+M1+M2+M3+M4+M5+M6 Tamamlandı ✅ (uçtan uca test edildi)
 
 - Node.js v24.18.0, Next.js 15.5.19 ✅

@@ -290,3 +290,53 @@ Vercel'e girmek güvenlidir.
    "Redirect URLs"a Vercel domain eklenir (örn. `https://bahce-cafe.vercel.app/**`)
 8. Özel domain bağlamak istersen Vercel → Domains → ekle
 
+---
+
+## 2026-07-01 — Canlıya Alma: İlk Vercel Deploy
+
+### Durum
+- **Canlı URL:** https://bahce-cafe-hisarustu-bmz5yikqf-seker.vercel.app
+- Deploy, Vercel dashboard'ın "Import Git Repository" akışıyla, `seker`
+  scope'lu bir Vercel hesabı üzerinden yapıldı. Bu hesap, Claude'un CLI'dan
+  bağlandığı `fatih10` hesabından **farklı** bir hesap/scope.
+
+### Vercel CLI ile Kurulan Ayrı Proje (kullanılmıyor)
+Canlıya almadan önce Claude, CLI ile `fatih10` scope'unda `bahce-cafe-hisarustu`
+adında ayrı bir Vercel projesi oluşturmuştu (GitHub App yetkisi o zaman eksikti).
+O proje hâlâ duruyor ama **hiç deploy'u yok** ve gerçek canlı site bu projeyle
+ilgili değil. Kafa karışıklığını önlemek için ileride Vercel dashboard'dan
+silinebilir (isteğe bağlı, acil değil).
+
+### Doğrulanamayanlar (Claude'un erişimi olmadığı için)
+Claude'un CLI oturumu `seker` hesabına giriş yapamadı (bu ortamın önbelleğe
+alınmış farklı bir oturumu araya giriyor, `vercel login` "Not authorized"
+hatasıyla sonuçlandı). Bu yüzden aşağıdakiler **kullanıcı tarafından
+`seker` hesabının Vercel dashboard'unda doğrulanmalı**:
+
+1. **Deployment Protection:** Site şu an Vercel SSO korumasının arkasında —
+   dışarıdan (giriş yapmadan) açılan istek `vercel.com/sso-api`'ye
+   yönlendiriliyor. QR kodu okutan müşteriler menüyü göremez.
+   → Düzeltme: Vercel dashboard → proje → Settings → Deployment Protection →
+   kapat (ya da sadece Production için kapat).
+2. **GitHub auto-deploy bağlantısı:** `seker` hesabındaki projenin
+   Settings → Git sayfasında `fatihsekerci2307-stack/bahce-cafe-hisarustu`
+   repo'sunun "Connected" göründüğü doğrulanmalı, ki her `git push` otomatik
+   yeni deploy tetiklesin.
+3. **Environment Variables:** `NEXT_PUBLIC_SUPABASE_URL` ve
+   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` değerlerinin Settings →
+   Environment Variables altında (Production ortamı için) girili olduğu
+   doğrulanmalı. Import sırasında otomatik sorulmuş olabilir ama teyit
+   gerekiyor — girili değilse sayfalar çalışmaz.
+4. **Sayfa içeriği:** Deployment Protection kapatıldıktan sonra
+   `/menu/bahce-cafe-hisarustu` gerçekten kategori/ürünlerle render oluyor
+   mu kontrol edilmeli (Claude, koruma nedeniyle bunu kendi tarayıcı
+   araçlarıyla henüz doğrulayamadı).
+
+### Ders
+Bu ortamın tarayıcı oturumu Vercel device-flow girişini otomatik
+onaylıyor ama her zaman kullanıcının asıl kullanmak istediği hesaba değil,
+ortamda önbellekte olan hesaba bağlanabiliyor. Birden fazla Vercel hesabı
+olan projelerde, canlıya alma işini kullanıcının kendi tarayıcısından
+yapması ve Claude'un CLI oturumunun hangi hesaba bağlı olduğunu her
+seferinde `vercel whoami` ile teyit etmesi gerekiyor.
+
