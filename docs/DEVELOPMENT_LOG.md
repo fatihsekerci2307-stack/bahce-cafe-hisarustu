@@ -340,3 +340,32 @@ olan projelerde, canlıya alma işini kullanıcının kendi tarayıcısından
 yapması ve Claude'un CLI oturumunun hangi hesaba bağlı olduğunu her
 seferinde `vercel whoami` ile teyit etmesi gerekiyor.
 
+---
+
+## 2026-07-01 — Canlıya Alma Tamamlandı: Deployment Protection Kapatıldı
+
+### Yapılanlar
+Kullanıcı Vercel dashboard'unda (hesap: `seker`) Deployment Protection'ı
+kapattı. Site artık gerçekten herkese açık.
+
+### Doğrulama (Claude tarafından canlı URL'ler üzerinde bizzat test edildi)
+Deployment Protection kapandıktan sonra Claude, WebFetch ile üç rotayı
+kimlik doğrulaması yapmadan (anonim) çekip içerik kontrolü yaptı:
+
+| Rota | Beklenen | Sonuç |
+|---|---|---|
+| `/menu/bahce-cafe-hisarustu` | Herkese açık, giriş istemez | ✅ Kategoriler (İçecekler, Nargile, Yiyecekler, Take Away) ve ürünler fiyatlarıyla gerçek veriden render oluyor, login yok |
+| `/admin` | Korumalı, login'e yönlendirir | ✅ E-posta/şifre giriş formu gösteriyor, admin içeriği sızmıyor |
+| `/pos` | Korumalı, login/auth ister | ✅ E-posta/şifre giriş formu gösteriyor, POS içeriği sızmıyor |
+
+### Build Kontrolü
+`npm run build` tekrar çalıştırıldı: 0 hata, 10 route, `/`, `/login`,
+`/_not-found` statik; `/admin*`, `/menu/[slug]`, `/pos*` dynamic.
+
+### Sonuç
+**Canlı site tamamen doğrulandı:** anonim müşteri erişimi çalışıyor,
+admin/POS rotaları middleware ile korunuyor, build temiz. Bahçe Cafe
+Hisarüstü sistemi gerçek işletme kullanımına hazır.
+
+**Canlı URL:** https://bahce-cafe-hisarustu-bmz5yikqf-seker.vercel.app
+
