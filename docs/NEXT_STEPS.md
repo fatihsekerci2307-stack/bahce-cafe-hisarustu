@@ -23,7 +23,25 @@ Protection Kapatıldı" bölümü.
 
 ## Revize Backlog
 
-*(Henüz madde yok — içerik/tasarım revizeleri buraya eklenecek.)*
+*(2026-07-01 canlı stabilizasyon turunda çıkarıldı — detay:
+`docs/DEVELOPMENT_LOG.md` → "Canlı Stabilizasyon Turu")*
+
+**Acil:** Yok.
+
+**Canlı kullanımdan önce iyi olur:**
+- [x] `/admin/products` + `/admin/categories` tablo taşması (mobilde aksiyon
+      butonları kırpılıyordu) → `overflow-x-auto` ile düzeltildi (2026-07-01)
+- [ ] Admin panel üst nav'ı mobilde taşabilir (`app/admin/layout.tsx`,
+      6 öğe tek satırda, wrap/hamburger yok)
+- [ ] Müşteri menüsünde Wi-Fi **şifresi** eksik, sadece ağ adı gösteriliyor
+- [ ] `/admin`'deki "Masalar & Alanlar → yakında" kartı tıklanabilir gibi
+      duruyor ama link yok, kafa karıştırıcı
+
+**Sonra yapılabilir:**
+- [ ] `/admin/reports` alt tablosunda aynı overflow iyileştirmesi (düşük öncelik)
+- [ ] Alan isim kısaltmaları netleştirilebilir (ör. "S.M.") — içerik/eğitim konusu
+- [ ] Kullanılmayan `fatih10` Vercel projesinin temizlenmesi
+- [ ] Bekleyen `.gitignore` (`.env*`) satırı için karar verilmeli
 
 ---
 

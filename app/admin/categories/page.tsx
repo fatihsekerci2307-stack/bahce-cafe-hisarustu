@@ -95,7 +95,7 @@ export default async function CategoriesPage({ searchParams }: PageProps) {
       )}
 
       {/* List */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
         {!categories.length ? (
           <p className="text-gray-400 text-center py-12 text-sm">
             Henüz kategori yok.

@@ -369,3 +369,46 @@ Hisarüstü sistemi gerçek işletme kullanımına hazır.
 
 **Canlı URL:** https://bahce-cafe-hisarustu-bmz5yikqf-seker.vercel.app
 
+---
+
+## 2026-07-01 — Canlı Stabilizasyon Turu (1 saatlik güvenli oturum)
+
+### Kapsam
+Yeni özellik yok, migration yok, şema değişikliği yok, POS/adisyon/ödeme
+çekirdeğine dokunulmadı. Amaç: canlı sistemi denetlemek ve Revize
+Backlog'u hazırlamak.
+
+### Yapılan İnceleme
+Tarayıcıda beklenmedik şekilde owner oturumu aktif çıktı (önceki bir
+testten kalma çerez); bu sayede `/admin`, `/admin/categories`,
+`/admin/products`, `/admin/reports`, `/pos` sayfaları canlıda veri
+değiştirmeden görüntülendi. Mobil uyumluluk, tarayıcı viewport
+resize'ının bu ortamda güvenilir sonuç vermemesi nedeniyle (farklı
+boyut istekleri aynı görüntüyü döndürdü) kaynak koddaki Tailwind
+class'larından değerlendirildi.
+
+### Bulgular
+Tüm sayfalar çalışıyor, hiçbir acil/kırıcı sorun yok. Mobil ve
+kullanılabilirlik notları `docs/NEXT_STEPS.md` → "Revize Backlog"
+bölümüne yazıldı (öncelik sırasına göre).
+
+### Uygulanan Küçük Düzeltme (kullanıcı onayıyla)
+`/admin/products` ve `/admin/categories` tablo sarmalayıcılarında
+`overflow-hidden` → `overflow-x-auto` değiştirildi
+(`app/admin/products/page.tsx`, `app/admin/categories/page.tsx`).
+
+**Neden:** Tablo genişliği dar ekranlarda (mobil) doğal genişliğini
+aşıyordu; `overflow-hidden` taşan içeriği (sağdaki "Düzenle"/"Pasife Al"
+aksiyon linkleri dahil) kırpıyordu. `overflow-x-auto` ile taşma artık
+kırpılmak yerine yatay kaydırılabiliyor, hiçbir içerik erişilemez hale
+gelmiyor.
+
+**Kapsam dışı bırakılanlar:** `/admin/reports` alt tablosu (kullanıcı
+talebi sadece products+categories içindi, düşük öncelikli backlog'a
+eklendi), nav bar mobil düzeni, içerik/tasarım revizeleri — hiçbiri
+değiştirilmedi.
+
+### Doğrulama
+`npm run build`: 0 hata, 10 route, önceki build ile birebir aynı route
+listesi (sadece CSS class değişikliği, yeni route/logic yok).
+

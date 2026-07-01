@@ -181,7 +181,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
       </div>
 
       {/* Product List */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto">
         {!filtered.length ? (
           <p className="text-gray-400 text-center py-12 text-sm">
             Henüz ürün yok.
