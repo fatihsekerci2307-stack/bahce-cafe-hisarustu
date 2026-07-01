@@ -145,5 +145,22 @@
 - RLS güvenliği: `business_id` her sorguda filtre olarak kullanılıyor; client'tan gelen form verisi sadece `table_id`, `bill_id`, `item_id` gibi ID'ler.
 - Build başarılı: `/pos` ve `/pos/table/[tableId]` ƒ dynamic route olarak oluştu.
 
+---
+
+## 2026-07-01 — M6: Gün Sonu Raporu
+
+### Yapılanlar
+- `app/admin/layout.tsx`: nav'a "Raporlar" linki eklendi.
+- `app/admin/reports/page.tsx` oluşturuldu:
+  - Tarih filtresi (GET form, `?date=YYYY-MM-DD`, varsayılan bugün).
+  - Özet kartları: toplam ciro, kapanan adisyon sayısı, nakit/kart/diğer dağılımı.
+  - Seçili tarihte kapanan adisyonların tablosu: masa adı, kapanış saati, ödeme yöntemi, tutar.
+
+### Teknik Notlar
+- Rol koruması ayrıca yazılmadı — `/admin/reports`, `app/admin/layout.tsx`'in mevcut owner/admin kontrolü altında (staff zaten reddediliyor).
+- Ciro hesaplaması `payments` tablosundan yapılıyor (bills değil) — gerçekte tahsil edilen tutarın kaynağı bu.
+- Tarih filtresi native HTML GET form ile yapılıyor; Server Component searchParams'ı okuyor, ekstra client JS gerekmiyor.
+- Build başarılı: `/admin/reports` ƒ dynamic route olarak oluştu.
+
 ## Sonraki Milestone
-**M6:** Gün sonu raporu + kapalı adisyon listesi (`/admin/reports`).
+**M7:** Instagram/Maps/Wi-Fi ayarları (`/admin/settings`) + müşteri menüsünde mini oyunlar.

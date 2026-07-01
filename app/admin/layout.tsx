@@ -7,6 +7,7 @@ const navLinks = [
   { href: "/admin", label: "Genel Bakış" },
   { href: "/admin/categories", label: "Kategoriler" },
   { href: "/admin/products", label: "Ürünler" },
+  { href: "/admin/reports", label: "Raporlar" },
 ];
 
 export default async function AdminLayout({
