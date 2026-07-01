@@ -162,5 +162,50 @@
 - Tarih filtresi native HTML GET form ile yapılıyor; Server Component searchParams'ı okuyor, ekstra client JS gerekmiyor.
 - Build başarılı: `/admin/reports` ƒ dynamic route olarak oluştu.
 
+---
+
+## 2026-07-01 — KRİTİK DÜZELTME: Eksik Tablo Erişim İzinleri (GRANT)
+
+### Sorun
+Kullanıcı "linkler açılmıyor" diye bildirdi. Tarayıcı ile canlı test edilince
+`/menu/bahce-cafe-hisarustu` 404 döndü — halbuki doğru slug ile veri vardı.
+
+### Kök Neden
+İlk migration'da (M2) RLS policy'leri doğru tanımlanmıştı ama Postgres'in
+temel tablo erişim izinleri (`GRANT`) hiç verilmemişti. RLS, GRANT olmadan
+devreye girmiyor; `anon` ve `authenticated` rolleri her sorguda
+"permission denied for table X" alıyordu (sessizce `null` dönüyordu,
+sayfa kodu da bunu 404/boş olarak yorumluyordu).
+
+### Düzeltme
+- `supabase/migrations/20260701000000_fix_table_grants.sql` eklendi:
+  - `anon` → `businesses`, `categories`, `products` üzerinde `SELECT`.
+  - `authenticated` → her tabloda RLS policy'lerinin izin verdiği komutlarla
+    birebir eşleşen `GRANT` (`areas`, `tables`, `categories`, `products`:
+    tam CRUD; `bills`: select/insert/update; `bill_items`: select/insert/delete;
+    `payments`: select/insert; `businesses`: select/update; `business_users`:
+    select/insert/update).
+  - Kullanıcıdan özel onay alındıktan sonra `supabase db push --linked` ile
+    canlı veritabanına uygulandı.
+- Node ile anon key kullanan tek seferlik bir tanı scripti (`diag.mjs`)
+  hatayı doğrulamak için kullanıldı, sonra silindi.
+
+### Doğrulama (Claude tarafından tarayıcıda bizzat test edildi)
+- `/menu/bahce-cafe-hisarustu` → gerçek kategoriler ve ürünlerle render oluyor.
+- `/menu/olmayan-slug` → doğru şekilde 404.
+- `/admin`, `/admin/categories`, `/admin/reports` → oturumlu kullanıcıyla
+  gerçek veri gösteriyor.
+- `/pos` → masa grid'i doğru (Boş/Dolu renk kodlaması).
+- Tam POS akışı: masaya adisyon aç → ürün ekle → kapat (Kart, ₺60) →
+  masa "Boş"a döndü → `/admin/reports`'ta doğru şekilde listelendi
+  (K1, 04:10, Kart, ₺60).
+- Test verisi olarak 1 adet kapalı adisyon (K1, ₺60) canlı veritabanında
+  kaldı — kullanıcı isterse temizlenebilir.
+
+### Ders
+Ham SQL migration ile tablo oluşturulduğunda Supabase Dashboard'un
+otomatik uyguladığı varsayılan GRANT'ler uygulanmıyor. Bundan sonraki
+migration'larda RLS policy'leriyle birlikte GRANT ifadeleri de yazılacak.
+
 ## Sonraki Milestone
 **M7:** Instagram/Maps/Wi-Fi ayarları (`/admin/settings`) + müşteri menüsünde mini oyunlar.
