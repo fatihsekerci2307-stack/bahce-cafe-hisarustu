@@ -231,3 +231,62 @@ cache temizliğiydi. Uygulama kodu değişmedi.
 
 ## Sonraki Milestone
 **M7:** Instagram/Maps/Wi-Fi ayarları (`/admin/settings`) + müşteri menüsünde mini oyunlar.
+
+---
+
+## 2026-07-01 — Release Checkpoint: M0–M6 Canlıya Alma Hazırlığı
+
+### Durum Özeti
+M0–M6 aşamalarının tamamı tamamlandı, Claude tarafından canlı tarayıcıda
+uçtan uca test edildi ve son commit (`adfcf7e`) GitHub `main` branch'ine
+push edildi. Kod tabanı Vercel'e deploy edilmeye hazır.
+
+### Tamamlanan Rotalar
+| Rota | Açıklama | Durum |
+|---|---|---|
+| `/login` | Supabase Auth girişi | ✅ |
+| `/admin` | Owner/admin korumalı panel | ✅ |
+| `/admin/categories` | Kategori CRUD | ✅ |
+| `/admin/products` | Ürün CRUD | ✅ |
+| `/admin/reports` | Gün sonu raporu | ✅ |
+| `/menu/[slug]` | Anonim QR menüsü | ✅ |
+| `/pos` | Masa grid (boş/dolu) | ✅ |
+| `/pos/table/[tableId]` | Adisyon aç/ürün ekle/kapat | ✅ |
+
+### Veritabanı Durumu
+- Supabase projesi: `wlwaiyejdxchgqklketz`
+- 2 migration uygulandı (M2 schema+seed + M0-M6 GRANT düzeltmesi)
+- 9 tablo, 30 RLS policy, tüm GRANT'ler aktif
+- Canlı veri: Bahçe Cafe Hisarüstü işletmesi, 5 alan, 17 masa, 4 kategori, 18 ürün
+- Test verisi temizlendi, veritabanı gerçek kullanıma hazır
+
+### Build Sonucu (son kontrol)
+```
+npm run build → 0 TypeScript hatası, 10 route, tüm sayfalar ƒ dynamic
+```
+
+### Güvenlik Kontrolü
+- `.env.local` git'e commit edilmedi ✅ (.gitignore'da)
+- Sadece `NEXT_PUBLIC_*` prefixli anahtarlar kullanılıyor (secret/service_role yok) ✅
+- `.env.example` placeholder değerlerle GitHub'da (gerçek key yok) ✅
+
+### Vercel İçin Gereken Environment Variables
+Vercel dashboard → Project → Settings → Environment Variables'a girilecek:
+```
+NEXT_PUBLIC_SUPABASE_URL          = https://wlwaiyejdxchgqklketz.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = <.env.local dosyasındaki değer>
+```
+Bu iki değer `NEXT_PUBLIC_` prefixlidir; tarayıcıya açıktır, secret değildir.
+Vercel'e girmek güvenlidir.
+
+### Vercel Canlıya Alma Adımları
+1. vercel.com → "Add New Project"
+2. GitHub repo `bahce-cafe-hisarustu` seçilir
+3. Framework: Next.js (otomatik algılanır)
+4. Environment Variables'a iki key girilir (yukarıdaki tablo)
+5. "Deploy" tıklanır — Vercel `npm run build` çalıştırır
+6. Deploy sonrası `/menu/bahce-cafe-hisarustu` canlı URL'den kontrol edilir
+7. Supabase dashboard → Authentication → URL Configuration →
+   "Redirect URLs"a Vercel domain eklenir (örn. `https://bahce-cafe.vercel.app/**`)
+8. Özel domain bağlamak istersen Vercel → Domains → ekle
+
