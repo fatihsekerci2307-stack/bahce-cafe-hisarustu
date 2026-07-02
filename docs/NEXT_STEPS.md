@@ -109,11 +109,21 @@ geçti (gradient orb'lar, dolum/geçiş animasyonları, dairesel delik
 konumlandırma, duman efekti). Detay: `docs/DEVELOPMENT_LOG.md` →
 "M7B-V2: Görsel Kalite İyileştirmesi" bölümü.
 
-**İleride:** Şu an aroma kartları emoji/CSS gradient kullanıyor.
-`FlavorOption` tipine eklenen opsiyonel `image` alanı sayesinde, gerçek
-ürün/tütün/takım fotoğrafları hazır olduğunda kod değişmeden (sadece
-`FLAVORS` dizisine `image: "/..."` eklenerek) görsel asset revizyonu
-yapılabilir.
+### M7B-V2 (revizyon 2) ✅ Ekipman Referanslı Görsel (2026-07-02)
+Oyuna "Nargile Tipini Seç" adımı eklendi (Meyveli: modern gold set +
+cam lüle / Klasik: geleneksel gold set + toprak lüle) ve tüm sahneler
+tipe göre SVG/CSS ile stilize çizildi. Detay: `docs/DEVELOPMENT_LOG.md`
+→ "M7B-V2 (revizyon 2)".
+
+**İleride (V3 — gerçek asset entegrasyonu):** Şu an tüm görseller
+stilize SVG/CSS/emoji. Gerçek Bahçe Cafe ekipman fotoğrafları
+(nargile setleri, lüleler, tütün kutuları) çekildiğinde:
+- Aroma kartları: `FlavorOption.image` alanına URL eklenerek kod
+  değişmeden fotoğrafa geçilebilir.
+- Set/lüle görselleri: `HookahFigure` ve `BowlMouth` bileşenleri
+  fotoğraf tabanlı sürümle değiştirilebilir (bileşen sınırları buna
+  göre ayrıldı).
+- Fotoğraflar işletmenin kendi ekipmanından çekilmeli (telif riski yok).
 
 ### Sonraki Revize Notları (M7B için)
 - [ ] Oyun görsel/animasyon kalitesi kullanıcı geri bildirimine göre

@@ -590,3 +590,60 @@ JS animasyon kütüphanesi yok. `/menu/[slug]` (ana menü) bundle boyutu
   animasyonu, folyo iniş animasyonu, dairesel delik konumlandırması
   hepsi beklendiği gibi çalıştı.
 
+---
+
+## 2026-07-02 — M7B-V2 (revizyon 2): Ekipman Referanslı Görsel İyileştirme
+
+### Kapsam
+Kullanıcının verdiği gerçek Bahçe Cafe ekipman referanslarına
+(Mr.Eds E24 Big Boss tarzı modern gold set, Quasar Raas 2 tarzı cam/siyah
+lüle, WD Tradi Gold tarzı klasik set, Bee toprak lüle) göre oyun görselleri
+baştan tasarlandı. **Telif kuralına uyuldu:** internetten hiçbir ürün
+fotoğrafı indirilmedi/kopyalanmadı, marka adı/logo kullanılmadı; referanslar
+sadece stil karakteri (renk, silüet, malzeme hissi) için kullanıldı ve tüm
+görseller elle yazılmış SVG/CSS gradient ile stilize çizildi.
+
+### Yeni Oyun Yapısı (7 adım)
+Akışın başına **"Nargile Tipini Seç"** adımı eklendi:
+- **Meyveli** → modern gold-titanyum gövde, şeffaf cam şişe, siyah hortum,
+  cam gövdeli siyah halkalı modern lüle; aromalar: Elma, Üzüm Nane, Karpuz,
+  Şeftali, Çift Elma, Limon Nane.
+- **Klasik** → geleneksel gold gövde, geniş gold tepsi, kesme cam şişe,
+  toprak/terracotta lüle; aromalar: Double Apple, Damla Sakız, Cappuccino,
+  Nane, Klasik.
+
+Seçilen tipe göre tüm sahneler değişiyor:
+- `HookahFigure` (yeni, inline SVG ~100 satır): tam nargile seti çizimi —
+  tip seçim kartlarında, aroma sahnesinde ve finalde (közler yanık +
+  duman ile) kullanılıyor. Gradient id'leri variant bazlı, iki figür aynı
+  ekranda çakışmadan durabiliyor.
+- `BowlMouth` (yeni): 2.5D lüle ağzı — üstten hafif açılı elips rim +
+  içinde dokundukça büyüyen tütün dolumu. Meyvelide siyah halkalı cam,
+  klasikte terracotta gövde.
+- Kapak adımı tipe göre ayrıştı: meyvelide gold topuzlu siyah metal
+  kapak, klasikte gümüş folyo; ikisi de yukarıdan inip oturuyor.
+- Delikler artık kapak/folyo elipsinin üstünde konumlanıyor (2.5D),
+  açılınca içbükey delik efekti.
+- Köz artık küp formunda (rotate + rounded), yanarken siyahtan
+  turuncu/kırmızıya interpolasyon + glow.
+- Köz yerleştirmede 3 köz kapak üstüne oturuyor.
+- Final: seçilen setin tam SVG çizimi, közler yanık, duman efekti.
+
+Adım etiketleri tipe göre uyarlanıyor ("Kapak Tak" / "Folyo Kapat").
+Tip değiştirilirse akış aşağısındaki tüm state sıfırlanıyor.
+
+### Teknik
+Yeni paket yok, 3D kütüphane yok, DB/migration yok, skor yok. Sadece
+inline SVG + Tailwind gradient/transition. `/menu/[slug]` bundle'ı yine
+değişmedi (173 B); oyun sayfası 3.33 kB → 5.07 kB.
+
+### Test (Claude tarafından bizzat yapıldı)
+- `npm run build`: 0 hata, 12 route.
+- **Meyveli akışı ilk 3 adım** localde doğrulandı: tip kartı → meyveli
+  aromalar → cam lülede tütün dolumu → "Kapağı Tak" adımı.
+- **Klasik akışı ilk 3 adım** localde doğrulandı: tip kartı → klasik
+  aromalar → toprak lülede dolum → "Folyoyu Kapat" adımı.
+- Not: bu ortamda tarayıcı ekran görüntüleri zaman zaman bayat kare
+  döndürdü; doğrulamalar ekran görüntüsüne ek olarak DOM metin
+  kontrolüyle (adım başlıkları) yapıldı.
+
