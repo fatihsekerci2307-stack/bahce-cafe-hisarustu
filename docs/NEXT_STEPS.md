@@ -55,6 +55,7 @@ Protection Kapatıldı" bölümü.
 - [ ] Alan isim kısaltmaları netleştirilebilir (ör. "S.M.") — içerik/eğitim konusu
 - [ ] Kullanılmayan `fatih10` Vercel projesinin temizlenmesi
 - [ ] Bekleyen `.gitignore` (`.env*`) satırı için karar verilmeli
+- [ ] M7B fikir aşamasında: Nargile Hazırlama Mini Oyunu — detay aşağıda "M7B" bölümünde
 
 ---
 
@@ -87,9 +88,26 @@ Protection Kapatıldı" bölümü.
 Migration gerekmedi (alanlar zaten M2'den beri DB'de vardı). Detay:
 `docs/DEVELOPMENT_LOG.md` → "M7A: İşletme Ayarları" bölümü.
 
-## Sonraki: M7B
+## M7B — Ertelendi (fikir aşamasında, karar verilmedi)
 
-**Hedef:** Mini oyun fikri (ör. çark, puan sistemi) — henüz netleşmedi, ayrı bir milestone olarak ele alınacak.
+**Durum (2026-07-02):** Karar şimdilik ertelendi. Aşağıdaki tek aday fikir
+kayıt altına alındı, henüz onaylanmadı/geliştirilmeye başlanmadı.
+
+### Aday Fikir: Nargile Hazırlama Mini Oyunu
+- Müşteri menüsünde "Beklerken Oyna" bölümü olarak açılacak.
+- Oyun akışı: tütün seç → lüleye yerleştir → delik aç → köz yak →
+  közü yerleştir → servise hazır.
+- İlk MVP veritabanı kullanmayacak (client-side, state kalıcı değil).
+- Skor / ödül / indirim mekanizması **olmayacak**.
+- POS/adisyon/ödeme ve admin ürün-kategori akışına **dokunmayacak**.
+- Mobil öncelikli tasarlanacak.
+- Önce ana menüden bağımsız ayrı bir prototip olarak geliştirilecek,
+  onaylanırsa sonra ana menüye bağlanacak.
+- 18+ / nargile içeriğine duyarlılık nedeniyle **çocuk oyunu gibi
+  tasarlanmayacak** (görsel dil ve ton buna göre seçilecek).
+
+Bu fikir onaylanıp geliştirmeye geçilene kadar M7B "beklemede" kabul
+edilir; kod yazımı başlamadı.
 
 ---
 
