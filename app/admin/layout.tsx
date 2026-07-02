@@ -3,7 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/admin/LogoutButton";
 
-const navLinks = [
+const baseNavLinks = [
   { href: "/admin", label: "Genel Bakış" },
   { href: "/admin/categories", label: "Kategoriler" },
   { href: "/admin/products", label: "Ürünler" },
@@ -32,6 +32,10 @@ export default async function AdminLayout({
   if (!rawBizUser || rawBizUser.role === "staff") redirect("/login");
 
   const roleLabel = rawBizUser.role === "owner" ? "Owner" : "Admin";
+  const navLinks =
+    rawBizUser.role === "owner"
+      ? [...baseNavLinks, { href: "/admin/settings", label: "Ayarlar" }]
+      : baseNavLinks;
 
   return (
     <div className="min-h-screen bg-gray-50">

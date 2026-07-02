@@ -1,6 +1,6 @@
 # Sonraki Adımlar — Bahçe Cafe Hisarüstü
 
-**Son güncelleme:** 2026-07-01
+**Son güncelleme:** 2026-07-02
 
 ---
 
@@ -78,14 +78,18 @@ Protection Kapatıldı" bölümü.
 
 ---
 
-## Sonraki Milestone: M7
+## M7A ✅ Tamamlandı (2026-07-02)
 
-**Hedef:** Instagram/Maps/Wi-Fi bilgilerini admin'den yönetilebilir hale getirme + müşteri menüsünde mini oyunlar.
+- [x] `/admin/settings` → işletme Instagram/Maps/Wi-Fi bilgilerini düzenleme formu (owner-only)
+- [x] Müşteri menüsünde Wi-Fi şifresi gösterimi
+- [x] Kaydetme hatası (RLS/owner değilse) sessiz geçilmiyor, kullanıcıya gösteriliyor
 
-### M7'de yapılacaklar:
-- [ ] `/admin/settings` → işletme Instagram/Maps/Wi-Fi bilgilerini düzenleme formu
-- [ ] Müşteri menüsünde Wi-Fi şifresi gösterimi (QR ile bağlanma)
-- [ ] Mini oyun fikri netleştirilecek (ör. çark, puan sistemi)
+Migration gerekmedi (alanlar zaten M2'den beri DB'de vardı). Detay:
+`docs/DEVELOPMENT_LOG.md` → "M7A: İşletme Ayarları" bölümü.
+
+## Sonraki: M7B
+
+**Hedef:** Mini oyun fikri (ör. çark, puan sistemi) — henüz netleşmedi, ayrı bir milestone olarak ele alınacak.
 
 ---
 
@@ -98,7 +102,8 @@ Protection Kapatıldı" bölümü.
 | M4 | Müşteri QR Menüsü | ✅ Tamamlandı |
 | M5 | Masa/Adisyon Paneli | ✅ Tamamlandı |
 | M6 | Ödeme + Gün Sonu Raporu | ✅ Tamamlandı |
-| M7 | Instagram/Maps/Wi-Fi + Mini Oyunlar | ⏳ Sıradaki |
+| M7A | Instagram/Maps/Wi-Fi Ayarları | ✅ Tamamlandı |
+| M7B | Mini Oyunlar | ⏳ Sıradaki |
 | M8 | Excel Menü Import | — |
 | M9 | Müşteri AI Önerici | — |
 | M10 | Admin AI Komutları | — |

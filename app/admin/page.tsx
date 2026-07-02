@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
 const adminLinks = [
   {
@@ -21,7 +22,30 @@ const adminLinks = [
   },
 ];
 
-export default function AdminPage() {
+const ownerLinks = [
+  {
+    href: "/admin/settings",
+    label: "Ayarlar",
+    desc: "Instagram, Google Maps, Wi-Fi bilgileri",
+    color: "bg-purple-50 text-purple-700 hover:bg-purple-100",
+  },
+];
+
+export default async function AdminPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: bizUser } = await supabase
+    .from("business_users")
+    .select("role")
+    .eq("user_id", user!.id)
+    .eq("is_active", true)
+    .single() as { data: { role: string } | null; error: unknown };
+
+  const links = bizUser?.role === "owner" ? [...adminLinks, ...ownerLinks] : adminLinks;
+
   return (
     <div className="space-y-6">
       <div>
@@ -29,7 +53,7 @@ export default function AdminPage() {
         <p className="text-gray-500 text-sm mt-1">Bahçe Cafe Hisarüstü</p>
       </div>
       <div className="grid gap-3 max-w-lg">
-        {adminLinks.map((link) => (
+        {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}

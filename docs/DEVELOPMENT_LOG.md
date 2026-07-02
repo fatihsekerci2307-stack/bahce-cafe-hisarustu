@@ -451,3 +451,44 @@ Eski `...-bmz5yikqf-seker.vercel.app` adresi deployment-specific bir
 URL'ydi (tek bir deployment'a sabit kalır, güncellenmez). Bundan sonra
 ana production URL olarak `zeta` adresi kullanılacak.
 
+---
+
+## 2026-07-02 — M7A: İşletme Ayarları (Instagram/Maps/Wi-Fi)
+
+### Kapsam
+Migration yok, DB şeması değişmedi — `businesses` tablosunda
+`instagram_url`, `google_maps_url`, `wifi_name`, `wifi_password`
+alanları zaten M2'den beri mevcuttu. Sadece 5 dosyada kod değişikliği:
+
+- `app/admin/settings/page.tsx` (yeni) — owner-only ayar formu
+- `app/admin/settings/actions.ts` (yeni) — `updateSettings` Server Action
+- `app/admin/layout.tsx` — nav'a "Ayarlar" linki (sadece owner'a görünür)
+- `app/admin/page.tsx` — dashboard'a "Ayarlar" kartı (sadece owner'a görünür)
+- `app/menu/[slug]/page.tsx` — Wi-Fi pill'ine şifre eklendi (varsa)
+
+### Güvenlik
+- Sayfa seviyesinde: `role !== "owner"` ise form yerine "Bu sayfaya
+  sadece işletme sahibi erişebilir" mesajı gösteriliyor.
+- Action seviyesinde: aynı kontrol tekrar yapılıyor, owner değilse
+  `?error=forbidden` ile geri dönülüyor.
+- **Sessiz RLS hatası önlendi:** `update(...).select()` sonucu boş
+  dönerse (RLS engellediyse veya id eşleşmediyse) `?error=save_failed`
+  ile kullanıcıya kırmızı hata banner'ı gösteriliyor — önceki
+  milestone'larda "sessizce hiçbir şey olmamış gibi" davranan pattern
+  burada bilinçli olarak düzeltildi.
+
+### Test (Claude tarafından bizzat yapıldı)
+- `npm run build`: 0 hata, 11 route (yeni `/admin/settings` eklendi).
+- Local dev server (`localhost:3000`) üzerinde, önceki bir oturumdan
+  kalma geçerli owner session'ı ile:
+  - `/admin/settings` → nav'da "Ayarlar" görünüyor, form gerçek DB
+    verisiyle (Instagram, Maps, Wi-Fi adı/şifre) doluyor ✅
+  - "Kaydet" tıklandı (**aynı değerlerle, veri değiştirmeden**) →
+    `?success=1`'e yönlendi, "Ayarlar kaydedildi" mesajı DOM'da
+    doğrulandı ✅
+  - `/menu/bahce-cafe-hisarustu` → Wi-Fi pill'i artık
+    "Wi-Fi: BahceCafe_Wifi / Şifre: Bahce2024" gösteriyor ✅
+- Owner olmayan (admin/staff) rolüyle erişim reddi test edilemedi
+  (ikinci bir test hesabı yok) — RLS + sayfa kontrolü kod incelemesiyle
+  doğrulandı, canlı ikinci hesapla test edilmedi.
+
