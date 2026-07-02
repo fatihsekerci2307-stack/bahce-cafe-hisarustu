@@ -103,6 +103,18 @@ menüsünde "🎮 Beklerken Oyna" butonuyla açılıyor.
 Detay ve hızlı-tıklama state bug'ı düzeltmesi: `docs/DEVELOPMENT_LOG.md`
 → "M7B MVP: Nargile Hazırlama Mini Oyunu" bölümü.
 
+### M7B-V2 ✅ Görsel Kalite İyileştirmesi (2026-07-02)
+Oyun "kart/buton" görünümünden koyu yeşil, premium bir "sahne" tasarımına
+geçti (gradient orb'lar, dolum/geçiş animasyonları, dairesel delik
+konumlandırma, duman efekti). Detay: `docs/DEVELOPMENT_LOG.md` →
+"M7B-V2: Görsel Kalite İyileştirmesi" bölümü.
+
+**İleride:** Şu an aroma kartları emoji/CSS gradient kullanıyor.
+`FlavorOption` tipine eklenen opsiyonel `image` alanı sayesinde, gerçek
+ürün/tütün/takım fotoğrafları hazır olduğunda kod değişmeden (sadece
+`FLAVORS` dizisine `image: "/..."` eklenerek) görsel asset revizyonu
+yapılabilir.
+
 ### Sonraki Revize Notları (M7B için)
 - [ ] Oyun görsel/animasyon kalitesi kullanıcı geri bildirimine göre
       iyileştirilebilir (şu an sade emoji/CSS, bilinçli tercih)

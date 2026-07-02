@@ -541,3 +541,52 @@ ilerledi.
 - `/admin` ve `/pos` ayrıca kontrol edildi: değişmemiş, "Ayarlar" kartı
   (M7A) dahil her şey aynı çalışıyor.
 
+---
+
+## 2026-07-02 — M7B-V2: Görsel Kalite İyileştirmesi
+
+### Kapsam
+Sadece `components/menu/NargilePrepGame.tsx` görsel olarak yeniden
+tasarlandı. Oyun mantığı/state akışı değişmedi (M7B'deki fonksiyonel
+state güncellemeleri ve `useEffect` tabanlı adım ilerletme aynen
+korundu). Yeni paket yok, 3D kütüphane yok, DB/migration yok.
+
+### Değişenler
+- Oyun artık "kart listesi" değil, koyu yeşil gradient bir **sahne
+  paneli** (`rounded-[2rem]`, `min-h-[70vh]`) içinde oynanıyor —
+  tam ekran mobil oyun hissi.
+- İlerleme göstergesi: düz bar yerine segment/pill tarzı HUD göstergesi.
+- **Aroma seçimi:** kart yerine gradient "orb" rozetler, seçili olana
+  amber glow ring. `FlavorOption` tipine ileride gerçek ürün görseli
+  eklenebilmesi için opsiyonel `image` alanı eklendi (şu an kullanılmıyor,
+  emoji fallback aktif) — asset-friendly yapı.
+- **Lüle doldurma:** dokunulan alanın kendisi büyük bir "kap" görseli;
+  her dokunuşta içi CSS `height` geçişiyle yeşil dolduruyor.
+- **Folyo kapatma:** metalik gradient bir disk, dokununca
+  `-translate-y-16 → translate-y-0` geçişiyle kabın üstüne "iniyor".
+- **Delik açma:** 5 nokta artık düz grid değil, folyo diski üzerinde
+  trigonometriyle (`Math.cos/sin`) dairesel konumlandırılmış, açılınca
+  içbükey gölgeyle "delik" efekti.
+- **Köz yakma:** renk, dokunuş sayısına göre inline `style` ile koyu
+  griden turuncu-kırmızıya interpolasyonla geçiyor, ayrıca artan bir
+  `box-shadow` parıltısı var.
+- **Köz yerleştirme:** 3 "hazne" foil üzerinde, doldukça turuncu-kırmızı
+  gradient + glow.
+- **Final ekranı:** Tailwind'in yerleşik `animate-bounce`'ı farklı
+  `animationDelay`/`animationDuration` ile 3 duman emojisine uygulanarak
+  hafif, performanslı bir duman efekti.
+
+### Performans
+Sadece CSS `transition`/`transform`/`opacity` ve Tailwind'in hazır
+`animate-bounce` utility'si kullanıldı — özel keyframe, canvas veya
+JS animasyon kütüphanesi yok. `/menu/[slug]` (ana menü) bundle boyutu
+**değişmedi** (173 B) çünkü oyun hâlâ ayrı route'ta; `/menu/[slug]/game`
+2.16 kB → 3.33 kB (küçük artış, önemsiz).
+
+### Test (Claude tarafından bizzat yapıldı)
+- `npm run build`: 0 hata, 12 route.
+- Local dev server'da ilk 4 adım (aroma seç → lüle doldur → folyo kapat
+  → delik aç) görsel olarak tek tek doğrulandı: seçim ring'i, dolum
+  animasyonu, folyo iniş animasyonu, dairesel delik konumlandırması
+  hepsi beklendiği gibi çalıştı.
+
