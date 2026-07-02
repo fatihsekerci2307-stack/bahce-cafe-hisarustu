@@ -6,7 +6,15 @@
 
 ## Canlı Site ✅ Yayında ve Doğrulandı
 
-**URL:** https://bahce-cafe-hisarustu-bmz5yikqf-seker.vercel.app
+**Production URL (doğrusu, kalıcı — buradan sonra bu kullanılacak):**
+https://bahce-cafe-hisarustu-zeta.vercel.app
+
+**QR Menü URL:**
+https://bahce-cafe-hisarustu-zeta.vercel.app/menu/bahce-cafe-hisarustu
+
+⚠️ Eski `...-bmz5yikqf-seker.vercel.app` adresi **deployment-specific**
+bir URL'ydi (tek bir deployment'a sabit, güncellenmiyor). Bundan sonra
+ana production URL olarak yukarıdaki `zeta` adresi kullanılacak.
 
 Deployment Protection kapatıldı, site herkese açık. Claude tarafından
 canlı URL üzerinde anonim olarak test edildi:
@@ -15,6 +23,11 @@ canlı URL üzerinde anonim olarak test edildi:
   kategori/ürün verisiyle render oluyor ✅
 - `/admin` → kendi login ekranına gidiyor, içerik sızmıyor ✅
 - `/pos` → kendi login/auth sistemiyle korunuyor, içerik sızmıyor ✅
+
+**Vercel deploy block sorunu çözüldü** (2026-07-01): GitHub → Vercel
+otomatik deploy akışı artık çalışıyor. Detay ve gelecekteki commit
+author kuralı için `docs/DEVELOPMENT_LOG.md` → "Vercel Deploy Block
+Sorunu Çözüldü" bölümüne bak.
 
 Detay: `docs/DEVELOPMENT_LOG.md` → "Canlıya Alma Tamamlandı: Deployment
 Protection Kapatıldı" bölümü.

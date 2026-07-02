@@ -412,3 +412,42 @@ değiştirilmedi.
 `npm run build`: 0 hata, 10 route, önceki build ile birebir aynı route
 listesi (sadece CSS class değişikliği, yeni route/logic yok).
 
+---
+
+## 2026-07-01 — Vercel Deploy Block Sorunu Çözüldü
+
+### Sorun
+Push edilen commit'ler Vercel'de deploy tetiklemiyordu. Vercel
+Deployments listesinde önceki commit'ler (`ebeb6b1`, `f1ec3a1`,
+`16350fc`) **"Blocked"** olarak işaretliydi.
+
+### Kök Neden
+Commit author/co-author bilgisi Vercel tarafından repo'ya yetkisiz bir
+"collaborator" gibi algılanıyordu; Hobby plan bu tür commit'lerden
+otomatik deploy tetiklemeyi engelliyor.
+
+### Çözüm
+- Repo public yapıldı.
+- Commit author, kullanıcının GitHub primary e-postasıyla eşleşecek
+  şekilde ayarlanarak boş bir trigger commit atıldı:
+  `fatihsekerci2307-stack <fatihsekerci2307@gmail.com>`
+  (Not: bu sadece bu commit'e özel `--author`/`GIT_COMMITTER_*`
+  override'ıyla yapıldı; repo'nun kalıcı git config'i değiştirilmedi.)
+- Yeni deployment **Ready** oldu (32 saniyede, Production).
+- GitHub → Vercel otomatik deploy akışı artık çalışıyor.
+
+### Gelecekte Commit Author
+Bundan sonraki commit'lerin Vercel'de sorunsuz deploy tetiklemesi için
+author kimliği şu şekilde olmalı:
+```
+fatihsekerci2307-stack <fatihsekerci2307@gmail.com>
+```
+
+### Doğru Production URL
+**Production URL:** https://bahce-cafe-hisarustu-zeta.vercel.app
+**QR Menü URL:** https://bahce-cafe-hisarustu-zeta.vercel.app/menu/bahce-cafe-hisarustu
+
+Eski `...-bmz5yikqf-seker.vercel.app` adresi deployment-specific bir
+URL'ydi (tek bir deployment'a sabit kalır, güncellenmez). Bundan sonra
+ana production URL olarak `zeta` adresi kullanılacak.
+
