@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Business, Category, Product } from "@/types";
 
@@ -87,6 +88,16 @@ export default async function MenuPage({ params }: MenuPageProps) {
           )}
         </div>
       )}
+
+      {/* Beklerken oyna */}
+      <div className="max-w-xl mx-auto px-4 pt-4">
+        <Link
+          href={`/menu/${slug}/game`}
+          className="block bg-amber-600 hover:bg-amber-700 text-white text-center py-3 rounded-xl font-semibold text-sm shadow-sm transition active:scale-95"
+        >
+          🎮 Beklerken Oyna — Nargile Hazırla
+        </Link>
+      </div>
 
       {/* Kategori sekmeleri (sticky) */}
       {categoriesWithProducts.length > 1 && (

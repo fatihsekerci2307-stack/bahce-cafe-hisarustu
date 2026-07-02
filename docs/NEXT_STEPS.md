@@ -88,26 +88,28 @@ Protection Kapatıldı" bölümü.
 Migration gerekmedi (alanlar zaten M2'den beri DB'de vardı). Detay:
 `docs/DEVELOPMENT_LOG.md` → "M7A: İşletme Ayarları" bölümü.
 
-## M7B — Ertelendi (fikir aşamasında, karar verilmedi)
+## M7B ✅ MVP Tamamlandı (2026-07-02)
 
-**Durum (2026-07-02):** Karar şimdilik ertelendi. Aşağıdaki tek aday fikir
-kayıt altına alındı, henüz onaylanmadı/geliştirilmeye başlanmadı.
+**Nargile Hazırlama Mini Oyunu** — `/menu/[slug]/game`, müşteri
+menüsünde "🎮 Beklerken Oyna" butonuyla açılıyor.
 
-### Aday Fikir: Nargile Hazırlama Mini Oyunu
-- Müşteri menüsünde "Beklerken Oyna" bölümü olarak açılacak.
-- Oyun akışı: tütün seç → lüleye yerleştir → delik aç → köz yak →
-  közü yerleştir → servise hazır.
-- İlk MVP veritabanı kullanmayacak (client-side, state kalıcı değil).
-- Skor / ödül / indirim mekanizması **olmayacak**.
-- POS/adisyon/ödeme ve admin ürün-kategori akışına **dokunmayacak**.
-- Mobil öncelikli tasarlanacak.
-- Önce ana menüden bağımsız ayrı bir prototip olarak geliştirilecek,
-  onaylanırsa sonra ana menüye bağlanacak.
-- 18+ / nargile içeriğine duyarlılık nedeniyle **çocuk oyunu gibi
-  tasarlanmayacak** (görsel dil ve ton buna göre seçilecek).
+- [x] Aroma seç → lüle doldur → folyo kapat → delik aç → köz yak →
+      köz yerleştir → "Servise Hazır" ekranı
+- [x] DB/migration/login yok, skor/ödül/indirim yok
+- [x] Mobil öncelikli, ayrı route (menü sayfası bundle'ı büyümedi)
+- [x] 18+ uyarı metni oyun sayfası header'ında
+- [x] POS/adisyon/ödeme, admin ürün/kategori dosyalarına dokunulmadı
 
-Bu fikir onaylanıp geliştirmeye geçilene kadar M7B "beklemede" kabul
-edilir; kod yazımı başlamadı.
+Detay ve hızlı-tıklama state bug'ı düzeltmesi: `docs/DEVELOPMENT_LOG.md`
+→ "M7B MVP: Nargile Hazırlama Mini Oyunu" bölümü.
+
+### Sonraki Revize Notları (M7B için)
+- [ ] Oyun görsel/animasyon kalitesi kullanıcı geri bildirimine göre
+      iyileştirilebilir (şu an sade emoji/CSS, bilinçli tercih)
+- [ ] "Tekrar Oyna" sonrası aroma seçiminin hatırlanması gibi küçük
+      UX iyileştirmeleri değerlendirilebilir
+- [ ] Gerçek cihazda (fiziksel telefon) dokunmatik test henüz yapılmadı
+      — sadece tarayıcı otomasyonuyla test edildi
 
 ---
 
@@ -121,7 +123,7 @@ edilir; kod yazımı başlamadı.
 | M5 | Masa/Adisyon Paneli | ✅ Tamamlandı |
 | M6 | Ödeme + Gün Sonu Raporu | ✅ Tamamlandı |
 | M7A | Instagram/Maps/Wi-Fi Ayarları | ✅ Tamamlandı |
-| M7B | Mini Oyunlar | ⏳ Sıradaki |
+| M7B | Mini Oyunlar (Nargile Hazırlama) | ✅ MVP Tamamlandı |
 | M8 | Excel Menü Import | — |
 | M9 | Müşteri AI Önerici | — |
 | M10 | Admin AI Komutları | — |

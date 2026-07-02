@@ -492,3 +492,52 @@ alanları zaten M2'den beri mevcuttu. Sadece 5 dosyada kod değişikliği:
   (ikinci bir test hesabı yok) — RLS + sayfa kontrolü kod incelemesiyle
   doğrulandı, canlı ikinci hesapla test edilmedi.
 
+---
+
+## 2026-07-02 — M7B MVP: Nargile Hazırlama Mini Oyunu
+
+### Kapsam
+DB/migration/login yok. Yeni dosyalar:
+- `components/menu/NargilePrepGame.tsx` (yeni, client component) — 6 adımlı
+  state machine: aroma seç → lüle doldur (3 dokunuş) → folyo kapat →
+  delik aç (5 nokta) → köz yak (progress, 5 dokunuş) → köz yerleştir
+  (3 dokunuş) → "Servise Hazır" ekranı.
+- `app/menu/[slug]/game/page.tsx` (yeni, Server Component) — sadece slug
+  doğrulaması için `businesses` tablosunu okuyor (mevcut menü sayfasıyla
+  aynı salt-okunur sorgu), 18+ uyarı metni + "Menüye Dön" header'ı.
+- `app/menu/[slug]/page.tsx` — sosyal pill'lerin altına "🎮 Beklerken
+  Oyna" butonu eklendi (`next/link`, oyun component'i menüye import
+  edilmiyor, ayrı route — bundle boyutu değişmedi: `/menu/[slug]` 173 B).
+
+Skor/ödül/indirim/çekiliş yok. POS/adisyon/ödeme ve admin ürün/kategori
+dosyalarına dokunulmadı.
+
+### Kritik Düzeltme: Stale Closure Bug
+İlk implementasyonda adım tamamlama kontrolü (`if (next.every(Boolean))
+setTimeout(...)`) doğrudan `onClick` içinde, closure'dan okunan state
+ile yapılıyordu. Claude'un kendi testinde (5 delik butonuna hızlı art
+arda tıklama simülasyonu) bu, React'in senkron/batch render döngüsünde
+**state güncellemelerinin kaybolmasına** yol açtığını ortaya çıkardı —
+5 tıklamadan sadece 1'i sayılıyordu. Mobilde hızlı dokunan gerçek
+kullanıcılarda da aynı sorun yaşanabilirdi.
+
+**Düzeltme:** Tüm sayaç/dizi state'leri fonksiyonel güncelleyiciye
+çevrildi (`setHoles((prev) => ...)`, `setTobaccoTaps((n) => n + 1)` vb.)
+ve adım ilerletme mantığı `useEffect`'e taşındı (state değişimini izler,
+tamamlanınca kısa bir gecikmeyle sonraki adıma geçer). Düzeltme sonrası
+aynı hızlı-tıklama senaryosu tekrar test edildi, tüm adımlar doğru
+ilerledi.
+
+### Test (Claude tarafından bizzat yapıldı)
+- `npm run build`: 0 hata, 12 route (yeni `/menu/[slug]/game` eklendi,
+  boyutu 2.16 kB).
+- Local dev server'da (owner session ile) tüm 6 adım + final ekran,
+  bazı adımlarda **hızlı art arda tıklama** simülasyonuyla test edildi;
+  hepsi doğru ilerledi ve doğru "Nargile Servise Hazır!" ekranına ulaştı.
+- Test sırasında bilinen Windows dev-cache sorunu (`Cannot find module
+  './vendor-chunks/@supabase.js'`) tekrar çıktı — `.next` silinip
+  server temiz yeniden başlatılarak çözüldü (kod hatası değil, sadece
+  dev-mode).
+- `/admin` ve `/pos` ayrıca kontrol edildi: değişmemiş, "Ayarlar" kartı
+  (M7A) dahil her şey aynı çalışıyor.
+
