@@ -25,10 +25,21 @@ export async function updateSettings(formData: FormData) {
   const google_maps_url = (formData.get("google_maps_url") as string).trim() || null;
   const wifi_name = (formData.get("wifi_name") as string).trim() || null;
   const wifi_password = (formData.get("wifi_password") as string).trim() || null;
+  const phone = (formData.get("phone") as string).trim() || null;
+  const address = (formData.get("address") as string).trim() || null;
+  const hours_text = (formData.get("hours_text") as string).trim() || null;
 
   const { data, error } = await supabase
     .from("businesses")
-    .update({ instagram_url, google_maps_url, wifi_name, wifi_password } as never)
+    .update({
+      instagram_url,
+      google_maps_url,
+      wifi_name,
+      wifi_password,
+      phone,
+      address,
+      hours_text,
+    } as never)
     .eq("id", bizUser.business_id)
     .select() as { data: { slug: string }[] | null; error: unknown };
 

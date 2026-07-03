@@ -10,8 +10,16 @@ const config: Config = {
       colors: {
         brand: {
           green: "#2d6a4f",
+          "green-dark": "#1d4838",
           gold: "#b5893a",
+          "gold-light": "#d4af6a",
+          cream: "#faf6ef",
+          ink: "#1c1a17",
         },
+      },
+      fontFamily: {
+        display: ["var(--font-display)"],
+        sans: ["var(--font-sans)"],
       },
     },
   },

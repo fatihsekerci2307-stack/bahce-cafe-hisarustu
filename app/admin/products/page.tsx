@@ -132,6 +132,41 @@ export default async function ProductsPage({ searchParams }: PageProps) {
                 className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Fotoğraf linki{" "}
+                <span className="text-gray-400 font-normal">(isteğe bağlı)</span>
+              </label>
+              <div className="flex items-start gap-3">
+                <input
+                  name="image_url"
+                  type="url"
+                  placeholder="https://…"
+                  defaultValue={editingProduct?.image_url ?? ""}
+                  className="flex-1 border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
+                />
+                {editingProduct?.image_url && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={editingProduct.image_url}
+                    alt=""
+                    className="w-14 h-14 rounded-lg object-cover border border-gray-200 shrink-0"
+                  />
+                )}
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                Fotoğrafın internet adresini yapıştır. Boş bırakırsan menüde yer tutucu görünür.
+              </p>
+            </div>
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                name="is_featured"
+                defaultChecked={editingProduct?.is_featured ?? false}
+                className="w-4 h-4 accent-green-700"
+              />
+              Öne çıkar (menüde “Şefin önerisi” bölümünde göster)
+            </label>
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
@@ -209,7 +244,28 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               {filtered.map((product) => (
                 <tr key={product.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-900">
-                    {product.name}
+                    <div className="flex items-center gap-3">
+                      {product.image_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={product.image_url}
+                          alt=""
+                          className="w-9 h-9 rounded-md object-cover border border-gray-200 shrink-0"
+                        />
+                      ) : (
+                        <span className="w-9 h-9 rounded-md bg-gray-100 border border-gray-200 shrink-0 flex items-center justify-center text-gray-300 text-xs">
+                          —
+                        </span>
+                      )}
+                      <span>
+                        {product.name}
+                        {product.is_featured && (
+                          <span className="ml-2 text-amber-500" title="Öne çıkan">
+                            ★
+                          </span>
+                        )}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-gray-500">
                     {catMap.get(product.category_id) ?? "—"}

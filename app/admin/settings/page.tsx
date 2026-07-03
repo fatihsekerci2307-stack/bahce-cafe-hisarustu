@@ -44,7 +44,7 @@ export default async function SettingsPage({ searchParams }: PageProps) {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Ayarlar</h1>
         <p className="text-gray-500 text-sm mt-1">
-          Instagram, Google Maps ve Wi-Fi bilgileri — müşteri menüsünde gösterilir
+          Instagram, Google Maps, Wi-Fi, telefon, adres ve çalışma saatleri — müşteri menüsünde gösterilir
         </p>
       </div>
 
@@ -104,6 +104,39 @@ export default async function SettingsPage({ searchParams }: PageProps) {
             <input
               name="wifi_password"
               defaultValue={business?.wifi_password ?? ""}
+              className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Telefon
+            </label>
+            <input
+              name="phone"
+              defaultValue={business?.phone ?? ""}
+              placeholder="0532 760 52 88"
+              className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Adres
+            </label>
+            <input
+              name="address"
+              defaultValue={business?.address ?? ""}
+              placeholder="Rumeli Hisarı, Nispetiye Cd No:99/C, Sarıyer/İstanbul"
+              className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Çalışma Saatleri
+            </label>
+            <input
+              name="hours_text"
+              defaultValue={business?.hours_text ?? ""}
+              placeholder="Her gün 07:00 – 04:00"
               className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-800"
             />
           </div>

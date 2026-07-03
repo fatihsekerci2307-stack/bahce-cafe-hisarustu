@@ -17,6 +17,9 @@ export interface Business {
   google_maps_url: string | null;
   wifi_name: string | null;
   wifi_password: string | null;
+  phone: string | null;
+  address: string | null;
+  hours_text: string | null;
   is_active: boolean;
   created_at: string;
 }
